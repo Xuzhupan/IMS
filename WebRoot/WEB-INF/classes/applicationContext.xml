@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+    
+    <context:property-placeholder location="classpath:db.properties" />
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- <property name="poolPreparedStatements" value="true" /> <property name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+
+		<!-- 监控数据库 -->
+		<!-- <property name="filters" value="mergeStat" /> -->
+		<property name="filters" value="stat" />
+	</bean>
+
+	<!-- 配置hibernate session工厂 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+			</props>
+		</property>
+
+       <!--  <property name="packagesToScan">  
+            <list>  
+                <value>wudeng.entity</value>   
+            </list>
+        </property> -->  
+        <property name="mappingResources">
+            <list>
+             	<value>wudeng/entity/hbm/User.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Employee.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Department.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Role.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Menu.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Goods.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Supplier.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Customer.hbm.xml</value>
+             	<value>wudeng/entity/hbm/Repertory.hbm.xml</value>
+             	<value>wudeng/entity/hbm/RepertoryLimit.hbm.xml</value>
+             	<value>wudeng/entity/hbm/PurchasePlan.hbm.xml</value>
+             	<value>wudeng/entity/hbm/PurchaseInfo.hbm.xml</value>
+             	<value>wudeng/entity/hbm/InstockNote.hbm.xml</value>
+             	<value>wudeng/entity/hbm/SellPlan.hbm.xml</value>
+             	<value>wudeng/entity/hbm/SellInfo.hbm.xml</value>
+             	<value>wudeng/entity/hbm/OutstockNote.hbm.xml</value>
+            </list>  
+        </property>
+    </bean>  
+     <!-- 配置事务管理 -->
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+    		p:sessionFactory-ref="sessionFactory"/>
+    <!-- 配置事务切面 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+    	<tx:attributes>
+    		<tx:method name="get*" read-only="true"/>
+    		<tx:method name="add*" propagation="REQUIRED" />
+    		<tx:method name="find*" propagation="REQUIRED" />
+    		<!-- 其它方法使用默认的事务设置 -->
+    		<tx:method name="*"/>
+    	</tx:attributes>
+    </tx:advice>
+    <aop:config>
+      <!-- 配置切入点 -->
+    	<aop:pointcut id="txPointcut" 
+    		expression="execution(* wudeng.service.impl.*.*(..))"/>
+    
+   		 <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+    <!-- 当前使用注解 -->
+	<context:annotation-config/>
+	<!-- 使用 annotation 自动注册bean,并检查@Controller, @Service, @Repository注解已被注入 -->   
+    <context:component-scan base-package="wudeng,test" />  
+</beans>

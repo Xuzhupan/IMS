@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="my" namespace="/" extends="struts-default">
+		
+		<action name="test" class="wudeng.action.TestAction">
+			<result>/success.jsp</result>
+		</action>
+		<action name="login" class="wudeng.action.LoginAction">
+			<result>/WEB-INF/login.jsp</result>
+		</action>
+		<action name="loginOut" class="wudeng.action.LoginAction" method="loginOut">
+			<result>/WEB-INF/login.jsp</result>
+		</action>
+		<action name="updatePwd" class="wudeng.action.LoginAction">
+			<result>/WEB-INF/updatePwd.jsp</result>
+		</action>
+		<action name="login_*" class="wudeng.action.LoginAction" method="{1}"></action>
+		<action name="goods_*" class="wudeng.action.GoodsAction" method="{1}"></action>
+		<action name="customer_*" class="wudeng.action.CustomerAction" method="{1}"></action>
+		<action name="supplier_*" class="wudeng.action.SupplierAction" method="{1}"></action>
+		<action name="repertory_*" class="wudeng.action.RepertoryAction" method="{1}"></action>
+		<action name="repertoryLimit_*" class="wudeng.action.RepertoryLimitAction" method="{1}"></action>
+		<action name="employee_*" class="wudeng.action.EmployeeAction" method="{1}"></action>
+		<action name="department_*" class="wudeng.action.DepartmentAction" method="{1}"></action>
+		<action name="menu_*" class="wudeng.action.MenuAction" method="{1}"></action>
+		<action name="role_*" class="wudeng.action.RoleAction" method="{1}"></action>
+		<action name="purchasePlan_*" class="wudeng.action.PurchasePlanAction" method="{1}"></action>
+		<action name="purchaseInfo_*" class="wudeng.action.PurchaseInfoAction" method="{1}"></action>
+		<action name="instockNote_*" class="wudeng.action.InstockNoteAction" method="{1}"></action>
+		<action name="sellPlan_*" class="wudeng.action.SellPlanAction" method="{1}"></action>
+		<action name="sellInfo_*" class="wudeng.action.SellInfoAction" method="{1}"></action>
+		<action name="outstockNote_*" class="wudeng.action.OutstockNoteAction" method="{1}"></action>
+		<action name="permission_*" class="wudeng.action.PermissionAction" method="{1}"></action>
+		
+		
+		<action name="index" class="wudeng.action.LoginAction">
+			<result>/WEB-INF/index.jsp</result>
+		</action>
+		<action name="roleIndex" class="wudeng.action.RoleAction">
+			<result>/WEB-INF/views/role/roleIndex.jsp</result>
+		</action>
+		<action name="employeeIndex" class="wudeng.action.EmployeeAction">
+			<result>/WEB-INF/views/employee/employeeIndex.jsp</result>
+		</action>
+		<action name="departmentIndex" class="wudeng.action.DepartmentAction">
+			<result>/WEB-INF/views/department/departmentIndex.jsp</result>
+		</action>
+		<action name="menuIndex" class="wudeng.action.MenuAction">
+			<result>/WEB-INF/views/menu/menuIndex.jsp</result>
+		</action>
+		<action name="purchasePlanIndex" class="wudeng.action.PurchasePlanAction">
+			<result>/WEB-INF/views/purchasePlan/purchasePlanIndex.jsp</result>
+		</action>
+		<action name="sellPlanIndex" class="wudeng.action.SellPlanAction">
+			<result>/WEB-INF/views/sellPlan/sellPlanIndex.jsp</result>
+		</action>
+		<action name="goodsIndex" class="wudeng.action.GoodsAction">
+			<result>/WEB-INF/views/goods/goodsIndex.jsp</result>
+		</action>
+		<action name="customerIndex" class="wudeng.action.CustomerAction">
+			<result>/WEB-INF/views/customer/customerIndex.jsp</result>
+		</action>
+		<action name="supplierIndex" class="wudeng.action.SupplierAction">
+			<result>/WEB-INF/views/supplier/supplierIndex.jsp</result>
+		</action>
+		<action name="repertoryIndex" class="wudeng.action.RepertoryAction">
+			<result>/WEB-INF/views/repertory/repertoryIndex.jsp</result>
+		</action>
+		<action name="repertoryLimitIndex" class="wudeng.action.RepertoryLimitAction">
+			<result>/WEB-INF/views/repertoryLimit/repertoryLimitIndex.jsp</result>
+		</action>
+		<action name="departmentIndex" class="wudeng.action.DepartmentAction">
+			<result>/WEB-INF/views/department/departmentIndex.jsp</result>
+		</action>
+		<action name="instockNoteIndex" class="wudeng.action.InstockNoteAction">
+			<result>/WEB-INF/views/instockNote/instockNoteIndex.jsp</result>
+		</action>
+		<action name="outstockNoteIndex" class="wudeng.action.OutstockNoteAction">
+			<result>/WEB-INF/views/outstockNote/outstockNoteIndex.jsp</result>
+		</action>
+		
+		
+		
+		<action name="userForm" class="wudeng.action.UserAction">
+			<result>/WEB-INF/views/user/userForm.jsp</result>
+		</action>
+		<action name="alterPassword" class="wudeng.action.UserAction">
+			<result>/WEB-INF/views/user/alterPassword.jsp</result>
+		</action>
+		<action name="linkEmployee" class="wudeng.action.UserAction" method="returnEmployee">
+			<result>/WEB-INF/views/user/linkEmployee.jsp</result>
+		</action>
+		<action name="authorize" class="wudeng.action.UserAction" method="returnRoleId">
+			<result>/WEB-INF/views/user/authorize.jsp</result>
+		</action>
+		<action name="goodsForm" class="wudeng.action.GoodsAction" method="addAndEidt">
+			<result>/WEB-INF/views/goods/goodsForm.jsp</result>
+		</action>
+		<action name="customerForm" class="wudeng.action.CustomerAction" method="addAndEidt">
+			<result>/WEB-INF/views/customer/customerForm.jsp</result>
+		</action>
+		<action name="employeeForm" class="wudeng.action.EmployeeAction" method="addAndEidt">
+			<result>/WEB-INF/views/employee/employeeForm.jsp</result>
+		</action>
+		<action name="roleForm" class="wudeng.action.RoleAction">
+			<result>/WEB-INF/views/role/roleForm.jsp</result>
+		</action>
+		<action name="supplierForm" class="wudeng.action.SupplierAction" method="addAndEidt">
+			<result>/WEB-INF/views/supplier/supplierForm.jsp</result>
+		</action>
+		<action name="departmentForm" class="wudeng.action.DepartmentAction" method="addAndEidt">
+			<result>/WEB-INF/views/department/departmentForm.jsp</result>
+		</action>
+		<action name="purchasePlanForm" class="wudeng.action.PurchasePlanAction">
+			<result>/WEB-INF/views/purchasePlan/purchasePlanForm.jsp</result>
+		</action>
+		<action name="sellPlanForm" class="wudeng.action.SellPlanAction">
+			<result>/WEB-INF/views/sellPlan/sellPlanForm.jsp</result>
+		</action>
+	</package>
+	
+	<package name="Index" namespace="/" extends="struts-default">
+		<action name="Index_*" class="wudeng.action.IndexAction" method="{1}"></action>
+	</package>
+	
+	<package name="test" namespace="/" extends="struts-default">
+		<action name="test_*" class="test.PermissionTest" method="{1}">
+			<result>/success.jsp</result>
+		</action>
+	</package>
+	<package name="User" namespace="/" extends="struts-default">
+		<action name="user_*" class="wudeng.action.UserAction" method="{1}">
+		
+		</action>
+		<action name="userIndex" class="wudeng.action.UserAction">
+			<result>/WEB-INF/views/user/userIndex.jsp</result>
+		</action>
+	</package>
+</struts>
